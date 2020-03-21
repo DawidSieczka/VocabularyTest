@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Data;
 using System.Security.AccessControl;
+using System.Threading;
 
 namespace VocabularyTest
 {
@@ -61,26 +62,36 @@ namespace VocabularyTest
 
         static void FileMapping(string filePath)
         {
-            using (var reader = new StreamReader(filePath))
+            try
             {
-
-
-                while (!reader.EndOfStream)
+                using (var reader = new StreamReader(filePath))
                 {
-                    var line = reader.ReadLine().Trim();
 
-                    var result = line.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
-                    string[] words = result[0].Split(';');
-
-                    var _meaning = new Vocabulary()
+                    while (!reader.EndOfStream)
                     {
-                        wordA = words[0],
-                        wordB = words[1]
-                    };
-                    _dictionary.Add(_meaning);
+                        var line = reader.ReadLine().Trim();
+
+                        var result = line.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+
+                        string[] words = result[0].Split(';');
+
+                        var _meaning = new Vocabulary()
+                        {
+                            wordA = words[0],
+                            wordB = words[1]
+                        };
+                        _dictionary.Add(_meaning);
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Reading file failed.\n{ex.Message}");
+                Console.ReadLine();
+                Environment.Exit(0);
+            }
+            
         }
         static void Shuffle<T>(this IList<T> list)
         {
@@ -138,6 +149,7 @@ namespace VocabularyTest
                     break;
 
                 default:
+                    Console.WriteLine("Wrong choice");
                     break;
             }
         }
