@@ -14,6 +14,7 @@ namespace VocabularyTest
     {
         public static List<Vocabulary> _dictionary = new List<Vocabulary>();
         static string directoryPath = @"C:\Users\dawid\Desktop\VocabularyTest\";
+        static int points;
 
         static void Main(string[] args)
         {
@@ -129,9 +130,9 @@ namespace VocabularyTest
                     for (int i = 0; i < _dictionary.Count; i++)
                     {
                         Console.WriteLine(_dictionary[i].wordA);
-                        Console.ReadLine();
-                        Console.WriteLine("\n");
+                        string input = Console.ReadLine();
                         Console.Write(_dictionary[i].wordB);
+                        Rate(input, _dictionary[i].wordB);
                         Console.ReadLine();
                         Console.WriteLine("------------------\n");
                     }
@@ -140,9 +141,9 @@ namespace VocabularyTest
                     for (int i = 0; i < _dictionary.Count; i++)
                     {
                         Console.WriteLine(_dictionary[i].wordB);
-                        Console.ReadLine();
-                        Console.WriteLine("\n");
+                        string input = Console.ReadLine();
                         Console.Write(_dictionary[i].wordA);
+                        Rate(input, _dictionary[i].wordA);
                         Console.ReadLine();
                         Console.WriteLine("------------------\n");
                     }
@@ -152,6 +153,14 @@ namespace VocabularyTest
                     Console.WriteLine("Wrong choice");
                     break;
             }
+        }
+        static void Rate(string input, string correctAnswer)
+        {
+            input = input.ToLower();
+            correctAnswer = correctAnswer.ToLower();
+            if (string.Compare(input, correctAnswer) == 0)
+                points++;
+            Console.WriteLine($"\n\n{points}/{_dictionary.Count}");
         }
     }
     public class Vocabulary 
